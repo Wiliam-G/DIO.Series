@@ -9,6 +9,7 @@ namespace DIO.Series
         private string Titulo { get; set; }
         private string Descricao { get; set; }
         private int Ano { get; set; }
+        private bool Excluido { get; set; }
 
         //métodos
 
@@ -20,6 +21,7 @@ namespace DIO.Series
             this.Titulo = titulo;
             this.Descricao = descricao;
             this.Ano = ano;
+            this.Excluido = Excluido;
         }
 
         public override string ToString()
@@ -40,6 +42,11 @@ namespace DIO.Series
         public int retornaId()
         {
             return this.Id;
+        }
+
+        public void Excluir()
+        {
+            this.Excluido = true;
         }
     }
 }
