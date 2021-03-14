@@ -274,7 +274,7 @@ namespace DIO.Series
                 Console.Write("Digite o ano de início da série: ");
                 int entradaAno = int.Parse(Console.ReadLine());
 
-                Console.Write("Digite a descrição da série");
+                Console.Write("Digite a descrição da série: ");
                 string entradaDescricao = Console.ReadLine();
 
                 Serie novaSerie = new Serie(id: repositorioSeries.ProximoId(),
@@ -306,7 +306,7 @@ namespace DIO.Series
                 Console.WriteLine("Digite o ano de início da série: ");
                 int entradaAno = int.Parse(Console.ReadLine());
 
-                Console.WriteLine("Digite a descrição da sérieÇ: ");
+                Console.WriteLine("Digite a descrição da série: ");
                 string entraDescrição = Console.ReadLine();
 
                 Serie atualizaSerie = new Serie(id: indiceSerie,
