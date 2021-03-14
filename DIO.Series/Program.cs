@@ -5,7 +5,8 @@ namespace DIO.Series
     class Program
     {
         private const string V = "0";
-        static SeriesRepositorio repositorio = new SeriesRepositorio();
+        static SeriesRepositorio repositorioSeries = new SeriesRepositorio();
+        static FilmesRepositorio repositorioFilmes = new FilmesRepositorio();
         static void Main(string[] args)
         {
             string tipoCadastro = ObterTipoCadastro();
@@ -21,6 +22,8 @@ namespace DIO.Series
                         CadastrarSeries();
                         break;
                     case "X":
+                        Environment.Exit(0);
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -30,6 +33,7 @@ namespace DIO.Series
 
             static void CadastrarFilmes()
             {
+                Console.WriteLine("Filmes");
                 string opcaoUsuario = ObterOpcaoUsuario();
 
                 while (opcaoUsuario.ToUpper() != "X")
@@ -60,14 +64,18 @@ namespace DIO.Series
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
+
+                    opcaoUsuario = ObterOpcaoUsuario();
                 }
 
-                opcaoUsuario = ObterOpcaoUsuario();
+               
             }
 
 
             static void CadastrarSeries()
             {
+                Console.WriteLine("Séries");
+
                 string opcaoUsuario = ObterOpcaoUsuario();
 
                 while (opcaoUsuario.ToUpper() != "X")
@@ -99,17 +107,20 @@ namespace DIO.Series
                             throw new ArgumentOutOfRangeException();
                     }
 
+                   
+                    Console.ReadLine();
                     opcaoUsuario = ObterOpcaoUsuario();
+
                 }
 
-                Console.WriteLine("Obrigado por utilizar nossos serviços");
-                Console.ReadLine();
-
+                
             }
 
 
             static string ObterTipoCadastro()
             {
+                Console.WriteLine("DIO a seu dispor");
+                Console.WriteLine("");
                 Console.WriteLine("1- Cadastrar Filmes");
                 Console.WriteLine("2- Cadastrar Séries");
                 Console.WriteLine("x- Sair");
@@ -124,7 +135,7 @@ namespace DIO.Series
             {
                 Console.WriteLine("Listar filmes");
 
-                var lista = repositorio.Lista();
+                var lista = repositorioFilmes.Lista();
 
                 if (lista.Count == 0 )
                 {
@@ -135,7 +146,9 @@ namespace DIO.Series
                 foreach (var filme in lista)
                 {
                     var excluido = filme.retornaExcluido();
-                    Console.WriteLine("#Id{0}: {-1}", filme.retornaId(), filme.retornaExcluido(), (excluido ? "Filme excluido" : ""));
+                    Console.WriteLine("#ID{0}: -{1}", filme.retornaId(), filme.retornaTitulo(), (excluido ? "Série excluida" : ""));
+
+
                 }
             }
 
@@ -159,13 +172,13 @@ namespace DIO.Series
                 Console.Write("Digite a descrição do filme: ");
                 string entradaDescricao = Console.ReadLine();
 
-                Filme novoFilme = new Filme(id: repositorio.ProximoId(),
+                Filme novoFilme = new Filme(id: repositorioFilmes.ProximoId(),
                     genero: (Genero)entradaGenero,
                     titulo: entradaTitulo,
                     ano: entradaAno,
                     descricao: entradaDescricao);
 
-                //repositorio.Insere(novoFilme);
+                repositorioFilmes.Insere(novoFilme);
             }
 
             static void AtualizarFilme()
@@ -198,7 +211,7 @@ namespace DIO.Series
                     descricao: entraDescrição
                     );
 
-               // repositorio.Atualiza(indiceFilme, atualizaFilme);
+                repositorioFilmes.Atualiza(indiceFilme, atualizaFilme);
 
             }
 
@@ -207,7 +220,7 @@ namespace DIO.Series
                 Console.WriteLine("Digite o id do filme: ");
                 int indiceFilme = int.Parse(Console.ReadLine());
 
-                repositorio.Exclui(indiceFilme);
+                repositorioFilmes.Exclui(indiceFilme);
 
             }
 
@@ -216,7 +229,7 @@ namespace DIO.Series
                 Console.WriteLine("Digite o id do filme: ");
                 int indiceFilme = int.Parse(Console.ReadLine());
 
-                var filme = repositorio.RetornaPorId(indiceFilme);
+                var filme = repositorioFilmes.RetornaPorId(indiceFilme);
                 Console.WriteLine(filme);
             }
 
@@ -227,7 +240,7 @@ namespace DIO.Series
             {
                 Console.WriteLine("Listar séries");
 
-                var lista = repositorio.Lista();
+                var lista = repositorioSeries.Lista();
 
                 if (lista.Count == 0)
                 {
@@ -264,13 +277,13 @@ namespace DIO.Series
                 Console.Write("Digite a descrição da série");
                 string entradaDescricao = Console.ReadLine();
 
-                Serie novaSerie = new Serie(id: repositorio.ProximoId(),
+                Serie novaSerie = new Serie(id: repositorioSeries.ProximoId(),
                     genero: (Genero)entradaGenero,
                     titulo: entradaTitulo,
                     ano: entradaAno,
                     descricao: entradaDescricao);
 
-                repositorio.Insere(novaSerie);
+                repositorioSeries.Insere(novaSerie);
             }
 
             static void AtualizarSerie()
@@ -303,7 +316,7 @@ namespace DIO.Series
                     descricao: entraDescrição
                     );
 
-                repositorio.Atualiza(indiceSerie, atualizaSerie);
+                repositorioSeries.Atualiza(indiceSerie, atualizaSerie);
 
             }
 
@@ -312,7 +325,7 @@ namespace DIO.Series
                 Console.WriteLine("Digite o id da série: ");
                 int indiceSerie = int.Parse(Console.ReadLine());
 
-                repositorio.Exclui(indiceSerie);
+                repositorioSeries.Exclui(indiceSerie);
 
             }
 
@@ -321,14 +334,14 @@ namespace DIO.Series
                 Console.WriteLine("Digite o id da série: ");
                 int indiceSerie = int.Parse(Console.ReadLine());
 
-                var serie = repositorio.RetornaPorId(indiceSerie);
+                var serie = repositorioSeries.RetornaPorId(indiceSerie);
                 Console.WriteLine(serie);
             }
 
             static string ObterOpcaoUsuario()
             {
                 Console.WriteLine();
-                Console.WriteLine("DIO a seu dispor");
+                Console.WriteLine("Escolha entre as opções abaixo");
                 Console.WriteLine("1- Listar");
                 Console.WriteLine("2- Inserir");
                 Console.WriteLine("3- Atualizar");
